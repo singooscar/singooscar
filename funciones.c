@@ -1,72 +1,70 @@
 #include <stdio.h>
+#include <string.h>
 #include "funciones.h"
 
-void imprimirListaProductos(Producto* productos, int numProductos) {
+void imprimirListaProductos(int* id, char nombre[][20], char descripcion[][50], float* precio, int* cantidad, int numProductos) {
     printf("Lista de productos:\n");
     for (int i = 0; i < numProductos; i++) {
         printf("ID: %d, Nombre: %s, Descripcion: %s, Precio: $%.2f, Cantidad: %d\n",
-               productos[i].id, productos[i].nombre, productos[i].descripcion,
-               productos[i].precio, productos[i].cantidad);
+               id[i], nombre[i], descripcion[i], precio[i], cantidad[i]);
     }
 }
 
-void ingresarProductos(Producto* productos, int* numProductos) {
-    int cantidad;
+void ingresarProductos(int* id, char nombre[][20], char descripcion[][50], float* precio, int* cantidad, int* numProductos) {
+    int cantidadProductos;
     
     printf("Ingrese los productos:\n");
     printf("¿Cuántos productos desea ingresar? ");
-    scanf("%d", &cantidad);
+    scanf("%d", &cantidadProductos);
     
-    for (int i = 0; i < cantidad; i++) {
-        Producto producto;
-        producto.id = *numProductos + 1;
+    for (int i = 0; i < cantidadProductos; i++) {
+        id[*numProductos] = *numProductos + 1;
         
         printf("Producto %d:\n", i + 1);
         
         printf("Nombre: ");
-        scanf("%s", producto.nombre);
+        scanf("%s", nombre[*numProductos]);
         
         printf("Descripcion: ");
-        scanf("%s", producto.descripcion);
+        scanf("%s", descripcion[*numProductos]);
         
         printf("Precio: ");
-        scanf("%f", &producto.precio);
+        scanf("%f", &precio[*numProductos]);
         
         printf("Cantidad: ");
-        scanf("%d", &producto.cantidad);
+        scanf("%d", &cantidad[*numProductos]);
         
-        productos[*numProductos] = producto;
         (*numProductos)++;
         
-        printf("Producto ingresado con exito.\n");
+        printf("Producto ingresado con éxito.\n");
     }
     
-    imprimirListaProductos(productos, *numProductos);
+    imprimirListaProductos(id, nombre, descripcion, precio, cantidad, *numProductos);
 }
 
-void modificarProducto(Producto* productos, int numProductos) {
-    int id;
+void modificarProducto(int* id, char nombre[][20], char descripcion[][50], float* precio, int* cantidad, int numProductos) {
+    int productoID;
     printf("Ingrese el ID del producto a modificar: ");
-    scanf("%d", &id);
+    scanf("%d", &productoID);
     
     int encontrado = 0;
     for (int i = 0; i < numProductos; i++) {
-        if (productos[i].id == id) {
+        if (id[i] == productoID) {
             printf("Producto encontrado. Ingrese los nuevos datos:\n");
             
             printf("Nuevo nombre: ");
-            scanf("%s", productos[i].nombre);
+            scanf("%s", nombre[i]);
             
-            printf("Nueva descripcion: ");
-            scanf("%s", productos[i].descripcion);
+            printf("Nueva descripción: ");
+            scanf("%s", descripcion[i]);
             
             printf("Nuevo precio: ");
-            scanf("%f", &productos[i].precio);
+            scanf("%f", &precio[i]);
             
             printf("Nueva cantidad: ");
-            scanf("%d", &productos[i].cantidad);
+            scanf("%d", &cantidad[i]);
             
-            printf("Producto modificado con exito.\n");
+            printf("Producto modificado con éxito.\n");
             encontrado = 1;
             break;
         }
@@ -77,14 +75,14 @@ void modificarProducto(Producto* productos, int numProductos) {
     }
 }
 
-void eliminarProducto(Producto* productos, int* numProductos) {
-    int id;
+void eliminarProducto(int* id, char nombre[][20], char descripcion[][50], float* precio, int* cantidad, int* numProductos) {
+    int productoID;
     printf("Ingrese el ID del producto a eliminar: ");
-    scanf("%d", &id);
+    scanf("%d", &productoID);
     
     int indice = -1;
     for (int i = 0; i < *numProductos; i++) {
-        if (productos[i].id == id) {
+        if (id[i] == productoID) {
             indice = i;
             break;
         }
@@ -92,10 +90,14 @@ void eliminarProducto(Producto* productos, int* numProductos) {
     
     if (indice != -1) {
         for (int i = indice; i < *numProductos - 1; i++) {
-            productos[i] = productos[i + 1];
+            id[i] = id[i + 1];
+            strcpy(nombre[i], nombre[i + 1]);
+            strcpy(descripcion[i], descripcion[i + 1]);
+            precio[i] = precio[i + 1];
+            cantidad[i] = cantidad[i + 1];
         }
         (*numProductos)--;
-        printf("Producto eliminado con exito.\n");
+        printf("Producto eliminado con éxito.\n");
     } else {
         printf("Producto no encontrado.\n");
     }
