@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include "funciones.h"
 
+#define MAX_PRODUCTOS 10
+
 int main() {
-    Producto productos[MAX_PRODUCTOS];
+    int id[MAX_PRODUCTOS];
+    char nombre[MAX_PRODUCTOS][20];
+    char descripcion[MAX_PRODUCTOS][50];
+    float precio[MAX_PRODUCTOS];
+    int cantidad[MAX_PRODUCTOS];
     int numProductos = 0;
     
     printf("Bienvenido al sistema de gestión de productos.\n");
@@ -20,16 +26,16 @@ int main() {
         
         switch (opcion) {
             case 1:
-                ingresarProductos(productos, &numProductos);
+                ingresarProductos(id, nombre, descripcion, precio, cantidad, &numProductos);
                 break;
             case 2:
-                imprimirListaProductos(productos, numProductos);
+                imprimirListaProductos(id, nombre, descripcion, precio, cantidad, numProductos);
                 break;
             case 3:
-                modificarProducto(productos, numProductos);
+                modificarProducto(id, nombre, descripcion, precio, cantidad, numProductos);
                 break;
             case 4:
-                eliminarProducto(productos, &numProductos);
+                eliminarProducto(id, nombre, descripcion, precio, cantidad, &numProductos);
                 break;
             case 5:
                 printf("¡Hasta luego!\n");
